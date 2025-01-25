@@ -1,0 +1,116 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Dark semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff; /* White background */
+  padding: 2rem;
+  border-radius: 15px; /* Rounded corners */
+  width: 450px; /* Consistent width for the modal */
+  max-width: 90%; /* Ensure responsiveness on smaller screens */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Stacks content vertically */
+  gap: 1rem; /* Adds spacing between elements */
+  overflow: hidden; /* Ensures content doesn’t overflow the modal */
+  box-sizing: border-box; /* Includes padding in width calculation */
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333; /* Neutral color for the close button */
+  transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+  color: red; /* Red hover effect for close button */
+}
+
+/* Form inside the modal */
+.add-employee-form {
+  display: flex;
+  flex-direction: column; /* Stack form fields vertically */
+  gap: 1rem; /* Adds consistent spacing between fields */
+  width: 100%; /* Makes the form fit inside the modal */
+  margin: 0; /* Removes any default margin */
+  box-sizing: border-box; /* Ensures padding doesn’t extend beyond the modal */
+}
+
+/* Ensures all form fields (input and select) have the same width and style */
+.add-employee-form input {
+  width: 100%; /* Makes the select box the same width as the input fields */
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  background: #f9f9f9; /* Light background for consistency */
+  box-sizing: border-box; /* Includes padding in width calculation */
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.add-employee-form select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  background: #f9f9f9;
+  box-sizing: border-box;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  appearance: none; /* Hides the default arrow */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 5'%3E%3Cpath fill='%23333' d='M0 0l5 5 5-5z'/%3E%3C/svg%3E"); /* Down arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+}
+
+/* Focus effect for both input and select fields */
+.add-employee-form input:focus {
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Subtle glow effect */
+  outline: none;
+}
+
+.add-employee-form select:active {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 5'%3E%3Cpath fill='%23333' d='M0 5l5-5 5 5z'/%3E%3C/svg%3E"); /* Up arrow */
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Subtle glow effect */
+}
+
+.add-employee-form button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border-radius: 5px;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.add-employee-form button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow on hover */
+}

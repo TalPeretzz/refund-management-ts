@@ -1,0 +1,141 @@
+/* General styles for the admin page */
+.admin-page {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #444;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+/* Add employee form */
+.add-employee-form {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-employee-form input,
+.add-employee-form select,
+.add-employee-form button {
+  width: calc(100% - 1rem);
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.add-employee-form button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.add-employee-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Employee list */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ul li:last-child {
+  border-bottom: none;
+}
+
+ul li .role {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+ul li button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+ul li button:hover {
+  background-color: #c0392b;
+}
+
+/* Flex container for search input and add button */
+.search-and-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem; /* Adds spacing between the elements */
+}
+
+.employee-search {
+  max-width: 500px;
+}
+
+/* Search input styles */
+.employee-search input {
+  flex-grow: 1; /* Allows the input to take more space */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  max-width: 500px;
+  min-width: 350px;
+  width: fit-content;
+}
+
+.employee-search input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+/* Add Employee button styles */
+.add-employee-button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.add-employee-button:hover {
+  background-color: #0056b3;
+}

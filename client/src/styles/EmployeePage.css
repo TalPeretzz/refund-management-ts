@@ -1,0 +1,197 @@
+/* Center the box horizontally and position it near the top of the page */
+.employee-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  height: 100vh;
+  background-color: #f7f9fc;
+  font-family: Arial, sans-serif;
+}
+
+/* Style the content box */
+.tab-content {
+  width: 500px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Ensure tabs are positioned relative to this box */
+}
+
+.tab-content .history-tab {
+  padding: 20px;
+}
+
+/* Tabs container positioned at the top-right corner of the box */
+.tabs {
+  position: relative;
+  right: 10px; /* Align tabs with the right edge of the box */
+  display: flex;
+  /* gap: 0.5rem; */
+  background-color: transparent; /* No background color for the container */
+}
+
+/* Style individual tab buttons */
+.tabs button {
+  padding: 0.5rem 1rem;
+  background-color: #e6eaf0;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  border-radius: 10px 10px 0 0;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.tabs button.active {
+  background-color: #ffffff; /* Match box background */
+  color: #007bff;
+  border-bottom: 1px solid #ffffff; /* Seamless connection to the box */
+}
+
+/* Request List */
+.request-list {
+  margin-top: 1rem;
+}
+
+.request-card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: red;
+}
+
+/* Input fields */
+input[type='date'],
+input[type='text'],
+textarea {
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.history-tab label {
+  display: inline-block;
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+.history-tab input {
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.history-tab button {
+  padding: 0.75rem 1.5rem; /* Increase padding for a larger button */
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem; /* Increase font size for better readability */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.history-tab button:hover {
+  background-color: #0056b3;
+}
+
+.history-tab button:focus {
+  outline: 2px solid #0056b3; /* Add focus outline for accessibility */
+}
+
+.history-tab p {
+  color: red;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .pending-requests {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .pending-requests h2 {
+    margin-bottom: 1rem;
+  }
+  
+  .employee-features {
+    padding: 1rem;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
