@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    restart: always
+    environment:
+      POSTGRES_USER: refund_admin       # Set your PostgreSQL username
+      POSTGRES_PASSWORD: refund_password # Set your PostgreSQL password
+      POSTGRES_DB: refund_management     # Set your database name
+    ports:
+      - "5432:5432"                      # Expose PostgreSQL on port 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persist data
+
+volumes:
+  postgres_data:
