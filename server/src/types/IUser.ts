@@ -7,3 +7,8 @@ export interface IUser {
   Role: "employee" | "manager" | "account-manager" | "admin";
   IsActive?: boolean; // Default value is true
 }
+
+export interface IManager {
+  UserId: string;
+  FullName: string;
+}

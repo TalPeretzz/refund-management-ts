@@ -9,6 +9,7 @@ import {
 } from "../services/adminService";
 import { Employee } from "../types/Employee";
 import "../styles/AdminPage.css";
+import Navbar from "../components/Navbar";
 
 const AdminPage: React.FC = () => {
     const [searchResults, setSearchResults] = useState<Employee[]>([]);
@@ -68,59 +69,70 @@ const AdminPage: React.FC = () => {
     };
 
     return (
-        <div className="admin-page">
-            <h1>Admin Dashboard</h1>
-            <div className="search-and-add">
-                <EmployeeSearch onSearch={handleSearch} />
-                <button
-                    className="add-employee-button"
-                    onClick={() => {
-                        setModalOpen(true);
-                        setEditMode(false);
-                        setSelectedEmployee(null);
-                    }}
-                >
-                    Add Employee
-                </button>
+        <div className="admin-page" style={{ paddingTop: "80px" }}>
+            <Navbar />
+            <div className="admin-page">
+                <h1>Admin Dashboard</h1>
+                <div className="search-and-add">
+                    <EmployeeSearch onSearch={handleSearch} />
+                    <button
+                        className="add-employee-button"
+                        onClick={() => {
+                            setModalOpen(true);
+                            setEditMode(false);
+                            setSelectedEmployee(null);
+                        }}
+                    >
+                        Add Employee
+                    </button>
+                </div>
+
+                {isModalOpen && (
+                    <Modal
+                        isOpen={isModalOpen}
+                        onClose={() => setModalOpen(false)}
+                    >
+                        <AddEmployeeForm
+                            onSubmit={
+                                isEditMode
+                                    ? handleEditEmployee
+                                    : handleAddEmployee
+                            }
+                            employee={selectedEmployee}
+                        />
+                    </Modal>
+                )}
+
+                <h2>Search Results</h2>
+                {searchResults.length > 0 ? (
+                    <ul className="employee-list">
+                        {searchResults.map((employee) => (
+                            <li key={employee.UserId} className="employee-item">
+                                <button
+                                    onClick={() => openEditModal(employee)}
+                                    onKeyDown={(e) => {
+                                        if (
+                                            e.key === "Enter" ||
+                                            e.key === " "
+                                        ) {
+                                            openEditModal(employee);
+                                        }
+                                    }}
+                                    tabIndex={0}
+                                    className="employee-button"
+                                >
+                                    {employee.FullName} - {employee.Role}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>
+                        No employees found. Try searching for a name, username,
+                        or email.
+                    </p>
+                )}
             </div>
-
-            {isModalOpen && (
-                <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-                    <AddEmployeeForm
-                        onSubmit={
-                            isEditMode ? handleEditEmployee : handleAddEmployee
-                        }
-                        employee={selectedEmployee}
-                    />
-                </Modal>
-            )}
-
-            <h2>Search Results</h2>
-            {searchResults.length > 0 ? (
-                <ul className="employee-list">
-                    {searchResults.map((employee) => (
-                        <li key={employee.UserId} className="employee-item">
-                            <button
-                                onClick={() => openEditModal(employee)}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter" || e.key === " ") {
-                                        openEditModal(employee);
-                                    }
-                                }}
-                                tabIndex={0}
-                                className="employee-button"
-                            >
-                                {employee.FullName} - {employee.Role}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>
-                    No employees found. Try searching for a name, username, or
-                    email.
-                </p>
-            )}
         </div>
     );
 };

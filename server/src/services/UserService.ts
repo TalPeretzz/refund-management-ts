@@ -1,11 +1,18 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import db from "../models";
-import { IUser } from "../types/IUser";
+import { IManager, IUser } from "../types/IUser";
 import { ModelAttributes } from "sequelize";
 
 class UserService {
-  constructor() {}
+  private users: IUser[] = [];
+  constructor() {
+    this.initializeUsers();
+  }
+
+  private async initializeUsers() {
+    this.users = await this.getAllUsers();
+  }
 
   /**
    * Authenticate a user and return a JWT token.
@@ -17,7 +24,7 @@ class UserService {
     username: string,
     password: string
   ): Promise<{ token: string; role: string }> {
-    const user = await db.User.findOne({ where: { username } });
+    const user = await db.User.findOne({ where: { Username: username } });
     if (!user) {
       throw new Error("User not found");
     }
@@ -47,7 +54,8 @@ class UserService {
   async getAllUsers(): Promise<IUser[]> {
     try {
       const users = await db.User.findAll();
-      return users.map((user) => user.get({ plain: true })) as IUser[];
+      this.users = users.map((user) => user.get({ plain: true })) as IUser[];
+      return this.users;
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`Failed to retrieve users: ${error.message}`);
@@ -113,6 +121,26 @@ class UserService {
         throw new Error(`Failed to update user: ${error.message}`);
       } else {
         throw new Error("Failed to update user: Unknown error");
+      }
+    }
+  }
+
+  /**
+   * get all managers
+   * @returns An array of IUser objects.
+   * @throws An error if the retrieval fails.
+   */
+  async getMangers(): Promise<IManager[]> {
+    try {
+      const manager = this.users
+        .filter((user) => user.Role === "manager" && user.UserId !== undefined)
+        .map((user) => ({ FullName: user.FullName, UserId: user.UserId! }));
+      return manager;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to retrieve managers: ${error.message}`);
+      } else {
+        throw new Error("Failed to retrieve managers: Unknown error");
       }
     }
   }

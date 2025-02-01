@@ -6,4 +6,5 @@ export interface Employee {
     Role: "employee" | "manager" | "account-manager" | "admin"; // Role of the employee
     IsActive: boolean; // Whether the employee is active
     Password?: string; // Password (only used when creating a new employee)
+    ManagerId?: string; // Manager ID (only used when creating a new employee)
 }

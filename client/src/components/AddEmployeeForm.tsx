@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Employee } from "../types/Employee";
+import { getManagers } from "../services/adminService";
 
 interface Props {
     onSubmit: (employee: Employee) => void;
-    employee?: Employee | null; // Optional for "Add" mode
+    employee?: Employee | null;
 }
 
-const AddEmployeeForm: React.FC<Props> = ({ onSubmit }) => {
+const AddEmployeeForm: React.FC<Props> = ({ onSubmit, employee }) => {
     const [formData, setFormData] = useState<Omit<Employee, "UserId">>({
         FullName: "",
         Email: "",
@@ -15,6 +16,36 @@ const AddEmployeeForm: React.FC<Props> = ({ onSubmit }) => {
         Role: "employee",
         IsActive: true,
     });
+
+    const [managers, setManagers] = useState<Employee[]>([]);
+
+    useEffect(() => {
+        const fetchManagers = async () => {
+            try {
+                const data = await getManagers();
+                console.log("data", data);
+                setManagers(data);
+            } catch (error) {
+                console.error("Failed to fetch managers:", error);
+            }
+        };
+
+        fetchManagers();
+    }, []);
+
+    useEffect(() => {
+        if (employee) {
+            setFormData({
+                FullName: employee.FullName || "",
+                Email: employee.Email || "",
+                Username: employee.Username || "",
+                Password: "",
+                Role: employee.Role || "employee",
+                IsActive: employee.IsActive ?? true,
+                ManagerId: employee.ManagerId || "",
+            });
+        }
+    }, [employee]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -33,7 +64,7 @@ const AddEmployeeForm: React.FC<Props> = ({ onSubmit }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Add new employee </h2>
+            <h2>{employee ? "Edit Employee" : "Add New Employee"}</h2>
             <label>
                 Full Name:
                 <input
@@ -74,6 +105,21 @@ const AddEmployeeForm: React.FC<Props> = ({ onSubmit }) => {
                 />
             </label>
             <label>
+                Manager:
+                <select
+                    name="ManagerId"
+                    value={formData.ManagerId}
+                    onChange={handleChange}
+                >
+                    <option value="">Select a Manager</option>
+                    {managers.map((manager) => (
+                        <option key={manager.UserId} value={manager.UserId}>
+                            {manager.FullName}
+                        </option>
+                    ))}
+                </select>
+            </label>
+            <label>
                 Role:
                 <select
                     name="Role"
@@ -97,7 +143,9 @@ const AddEmployeeForm: React.FC<Props> = ({ onSubmit }) => {
                     }
                 />
             </label>
-            <button type="submit">Add Employee</button>
+            <button type="submit">
+                {employee ? "Update Employee" : "Add Employee"}
+            </button>
         </form>
     );
 };

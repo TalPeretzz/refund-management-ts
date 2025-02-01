@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import AdminPage from "./pages/AdminPage";
 import EmployeePage from "./pages/EmployeePage";
@@ -7,30 +7,45 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 
 const AppRoutes: React.FC = () => {
-    let { user } = useAuth(); // Retrieve user data from AuthContext
-    console.log("user", user);
-    user = { username: "admin", role: "admin" };
+    const { user, isLoading } = useAuth(); // Retrieve user data from AuthContext
+
+    console.log("User Role in AppRoutes:", user?.role);
+
+    if (isLoading) {
+        return <h2>Loading...</h2>;
+    }
+
+    if (!user) {
+        return <Navigate to="/" />;
+    }
+
     return (
         <Routes>
             {/* Public Route: Login Page */}
             <Route path="/" element={<LoginPage />} />
 
-            {/* Protected Route: Employee Page (Accessible to employees and managers) */}
-            <Route
-                element={
-                    <ProtectedRoute allowedRoles={["employee", "manager"]} />
-                }
-            >
+            {/* Protected Route: Employee Page (Only for employees and managers) */}
+            {["employee", "manager"].includes(user.role) && (
                 <Route
-                    path="/employee"
-                    element={<EmployeePage role={user!.role} />}
-                />
-            </Route>
+                    element={
+                        <ProtectedRoute
+                            allowedRoles={["employee", "manager"]}
+                        />
+                    }
+                >
+                    <Route
+                        path="/employee"
+                        element={<EmployeePage role={user.role} />}
+                    />
+                </Route>
+            )}
 
-            {/* Protected Route: Admin Page (Only accessible to admin users) */}
-            <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-                <Route path="/admin" element={<AdminPage />} />
-            </Route>
+            {/* Protected Route: Admin Page (Only for admins) */}
+            {user.role === "admin" && (
+                <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+                    <Route path="/admin" element={<AdminPage />} />
+                </Route>
+            )}
 
             {/* Unauthorized access page */}
             <Route

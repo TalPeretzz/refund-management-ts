@@ -51,6 +51,18 @@ class UserController {
     }
   }
 
+  async getAllManagers(req: Request, res: Response): Promise<void> {
+    try {
+      const managers = await this.userService.getMangers();
+      res.status(200).json({ data: managers });
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to retrieve managers",
+        error: (error as Error).message,
+      });
+    }
+  }
+
   /**
    * Updates an existing user
    */

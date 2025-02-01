@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 interface AuthContextType {
     user: { username: string; role: string } | null;
     login: (username: string, password: string) => Promise<void>;
+    isLoading: boolean;
     logout: () => void;
 }
 
@@ -16,6 +17,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const [user, setUser] = useState<{ username: string; role: string } | null>(
         null
     );
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,6 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
+        setIsLoading(false);
     }, []);
 
     const login = async (username: string, password: string) => {
@@ -31,7 +34,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify({ username, role }));
             setUser({ username, role });
-            navigate("/dashboard");
+            console.log("role", role);
+            if (role === "admin") {
+                navigate("/admin");
+                return;
+            }
+            navigate("/employee");
         } catch (error) {
             if (error instanceof Error) {
                 console.error("Login failed:", error.message);
@@ -49,7 +57,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, isLoading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

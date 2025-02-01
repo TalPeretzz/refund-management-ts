@@ -54,13 +54,13 @@ h2 {
 }
 
 /* Employee list */
-ul {
+.employee-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-ul li {
+.employee-list li {
   padding: 1rem;
   border-bottom: 1px solid #ddd;
   display: flex;
@@ -72,22 +72,22 @@ ul li {
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
-ul li:hover {
+.employee-list li:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
 
-ul li:last-child {
+.employee-list li:last-child {
   border-bottom: none;
 }
 
-ul li .role {
+.employee-list li .role {
   font-size: 0.9rem;
   color: #555;
   font-style: italic;
 }
 
-ul li .employee-button {
+.employee-list li .employee-button {
   all: unset; /* Reset all button styles */
   display: flex;
   align-items: center;
