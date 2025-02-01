@@ -1,0 +1,115 @@
+/* History Tab Container */
+.history-tab {
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  /* Date Filters Container */
+  .date-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  /* Labels in History Tab */
+  .history-tab label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Input Fields */
+  .history-tab input[type="date"],
+  .history-tab input[type="text"],
+  .history-tab textarea {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+  }
+  
+  .history-tab textarea {
+    resize: none;
+  }
+  
+  /* Buttons in History Tab */
+  .history-tab button,
+  .date-filters .search-button {
+    width: 100%;
+    max-width: 150px;
+    padding: 12px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 8px;
+  }
+  
+  .history-tab button:hover,
+  .date-filters .search-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  .history-tab button:focus,
+  .date-filters .search-button:focus {
+    outline: 2px solid #0056b3;
+    outline-offset: 2px;
+  }
+  
+  /* Error Messages */
+  .history-tab p {
+    color: red;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+  }
+  
+  /* Container for pending requests */
+  .pending-requests {
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .pending-requests h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .pending-requests .request-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .pending-requests .request-card:hover {
+    transform: translateY(-5px);
+  }
+  

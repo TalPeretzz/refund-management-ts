@@ -42,7 +42,7 @@ h2 {
 }
 
 .add-employee-form button {
-  background-color: #007bff;
+  background-color: #38a169;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -50,7 +50,7 @@ h2 {
 }
 
 .add-employee-form button:hover {
-  background-color: #0056b3;
+  background-color: #2eac68;
 }
 
 /* Employee list */
@@ -61,11 +61,20 @@ ul {
 }
 
 ul li {
-  padding: 0.75rem;
+  padding: 1rem;
   border-bottom: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+ul li:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 ul li:last-child {
@@ -74,23 +83,23 @@ ul li:last-child {
 
 ul li .role {
   font-size: 0.9rem;
-  color: #888;
+  color: #555;
+  font-style: italic;
 }
 
-ul li button {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 0.5rem 0.75rem;
-  border-radius: 5px;
-  font-size: 0.9rem;
+ul li .employee-button {
+  all: unset; /* Reset all button styles */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  text-align: left;
   cursor: pointer;
+  background-color: transparent;
+  border-radius: 8px;
   transition: background-color 0.3s ease;
 }
 
-ul li button:hover {
-  background-color: #c0392b;
-}
 
 /* Flex container for search input and add button */
 .search-and-add {
@@ -119,14 +128,14 @@ ul li button:hover {
 }
 
 .employee-search input:focus {
-  border-color: #007bff;
+  border-color: #38a169;
   outline: none;
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
 
 /* Add Employee button styles */
 .add-employee-button {
-  background-color: #007bff;
+  background-color: #38a169;
   color: white;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -137,5 +146,5 @@ ul li button:hover {
 }
 
 .add-employee-button:hover {
-  background-color: #0056b3;
+  background-color: #2eac68;
 }

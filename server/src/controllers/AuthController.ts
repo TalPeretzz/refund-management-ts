@@ -1,5 +1,5 @@
 import { Request, Response, RequestHandler } from "express";
-import AuthService from "../services/AuthService";
+import UserService from "../services/UserService";
 
 class AuthController {
   /**
@@ -12,10 +12,7 @@ class AuthController {
     const { username, password } = req.body;
 
     try {
-      const { token, role } = await AuthService.authenticate(
-        username,
-        password
-      );
+      const { token, role } = await UserService.login(username, password);
       res.json({ token, role });
     } catch (error) {
       if (
@@ -25,12 +22,10 @@ class AuthController {
       ) {
         res.status(401).json({ message: error.message });
       } else {
-        res
-          .status(500)
-          .json({
-            message: "An error occurred",
-            error: (error as Error).message,
-          });
+        res.status(500).json({
+          message: "An error occurred",
+          error: (error as Error).message,
+        });
       }
     }
   };

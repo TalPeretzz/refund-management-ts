@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import RequestCard from "./RequestCard";
 import { Request } from "../../types/Request";
+import Modal from "../Modal";
+import CreateRequestForm from "./RequestForm";
 
 const RequestTab: React.FC = () => {
     const [requests, setRequests] = useState<Request[]>([]);
@@ -26,7 +28,10 @@ const RequestTab: React.FC = () => {
 
     return (
         <div className="request-tab">
-            <button onClick={() => setModalOpen(true)}>
+            <button
+                className="create-request-button"
+                onClick={() => setModalOpen(true)}
+            >
                 Create New Request
             </button>
             <h2>Open Requests</h2>
@@ -72,6 +77,24 @@ const RequestTab: React.FC = () => {
                         <button onClick={handleCreateRequest}>Submit</button>
                     </div>
                 </div>
+            )}
+
+            {isModalOpen && (
+                <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
+                    <CreateRequestForm
+                        onSubmit={handleCreateRequest}
+                        handleCreateRequest={function (request: {
+                            id: string;
+                            title: string;
+                            description: string;
+                            status: string;
+                            employeeId: string;
+                        }): void {
+                            console.log("request", request);
+                            throw new Error("Function not implemented.");
+                        }}
+                    />
+                </Modal>
             )}
         </div>
     );

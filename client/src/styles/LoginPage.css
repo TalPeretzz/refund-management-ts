@@ -4,25 +4,67 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* background: url("/images/login-background.jpg") no-repeat center center/cover; */
   font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4; /* רקע בהיר */
+}
+
+/* Unified login box including logo, title, and form */
+.login-box {
+  background: rgba(255, 255, 255, 0.95); /* רקע אחיד עם שקיפות עדינה */
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  width: 380px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 5rem; /* מרווח ללוגו */
+}
+
+/* Logo container positioned inside the box */
+.logo-container {
+  position: absolute;
+  top: -50px; /* שיבוץ חלקי של הלוגו מחוץ לקופסה */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #2eac68;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 5px solid white; /* יצירת מראה מחובר לקופסה */
+}
+
+/* Logo SVG inside the container */
+.logo-container .login-box svg {
+  width: 60px;
+  height: 60px;
+}
+
+/* App name styling */
+.app-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2eac68;
+  margin-top: 1rem;
 }
 
 /* The login form container */
 .login-form {
-  background: rgba(255, 255, 255, 0.85); /* Semi-transparent white background */
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Soft shadow */
-  width: 350px;
+  width: 100%;
   text-align: center;
-  backdrop-filter: blur(10px); /* Glassmorphism effect */
 }
 
 /* Heading for the form */
 .login-form h1 {
   margin-bottom: 1rem;
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: #333;
   font-weight: bold;
 }
@@ -59,14 +101,14 @@
 }
 
 .input-field input:focus {
-  border-color: #007bff;
+  border-color: #38a169;
   outline: none;
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
 
 /* Button styles */
 .btn {
-  background-color: #007bff;
+  background-color: #38a169;
   color: white;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -78,7 +120,7 @@
 }
 
 .btn:hover {
-  background-color: #0056b3;
+  background-color: #2eac68;
 }
 
 /* Extra small text at the bottom */

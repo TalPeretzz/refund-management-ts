@@ -3,10 +3,13 @@ import bcrypt from "bcrypt";
 
 export default (sequelize: Sequelize) => {
   class User extends Model {
-    public id!: string;
-    public username!: string;
-    public password!: string;
-    public role!: string;
+    public UserId!: string;
+    public FullName!: string;
+    public Email!: string;
+    public Username!: string;
+    public Password!: string;
+    public Role!: string;
+    public IsActive!: boolean;
 
     public static async hashPassword(password: string): Promise<string> {
       const salt = await bcrypt.genSalt(10);
@@ -16,35 +19,44 @@ export default (sequelize: Sequelize) => {
 
   User.init(
     {
-      id: {
+      UserId: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      username: {
+      FullName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
-      password: {
+      Username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      Password: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      managerId:{
-        type: DataTypes.UUID,
-        allowNull: true,
-      },
-      role: {
-        type: DataTypes.ENUM("employee", "manager", "account-manager"),
+      Role: {
+        type: DataTypes.ENUM("employee", "manager", "account-manager", "admin"),
         defaultValue: "employee",
+      },
+      IsActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
       },
     },
     {
       sequelize,
-      tableName: "users",
+      tableName: "Users",
       hooks: {
         beforeCreate: async (user) => {
-          user.password = await User.hashPassword(user.password);
+          user.Password = await User.hashPassword(user.Password);
         },
       },
     }

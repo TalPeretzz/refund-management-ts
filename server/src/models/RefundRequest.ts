@@ -1,7 +1,7 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 
 export default (sequelize: Sequelize) => {
-  class Request extends Model {
+  class RefundRequest extends Model {
     public id!: string;
     public title!: string;
     public description!: string;
@@ -9,23 +9,35 @@ export default (sequelize: Sequelize) => {
     public employeeId!: string;
   }
 
-  Request.init(
+  RefundRequest.init(
     {
-      id: {
+      RequestId: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      title: {
-        type: DataTypes.STRING,
+      EmployeeId: {
+        type: DataTypes.UUID,
         allowNull: false,
       },
-      description: {
+      Description: {
         type: DataTypes.TEXT,
         allowNull: true,
       },
-      status: {
-        type: DataTypes.ENUM("Pending", "Approved", "Rejected"),
+      Amount: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      DateTime: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      ManagerComment: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      Status: {
+        type: DataTypes.ENUM("Pending", "Approved", "Rejected", "Waiting"),
         defaultValue: "Pending",
       },
     },
