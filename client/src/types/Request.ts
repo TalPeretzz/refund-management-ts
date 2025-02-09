@@ -1,9 +1,19 @@
 export interface Request {
-    id: number; // Unique identifier for the request
-    title: string; // Title of the request
-    description: string; // Description of the request
-    status: "Pending" | "Approved" | "Rejected" | "Waiting for Account"; // Status
-    date: string; // ISO date string for the request
-    employeeId: number; // Employee ID
-    managerId: number; // Manager ID
+    id?: string;
+    title: string;
+    description: string;
+    status: "Pending" | "Approved" | "Rejected" | "Waiting for Account";
+    date: string;
+    employeeId?: number;
+    managerId?: number;
+    amount: number;
+    employeeName?: string;
+}
+
+export interface RequestPayload {
+    title: string;
+    description: string;
+    amount: number;
+    attachment: File | null;
+    employeeId: string;
 }

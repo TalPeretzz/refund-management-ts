@@ -1,0 +1,80 @@
+/* RequestCard.css */
+.request-card {
+    display: flex;
+    justify-content: space-between; /* Align content and buttons to opposite sides */
+    align-items: center; /* Vertically center align items */
+    border-left: 5px solid;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    margin-bottom: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.request-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-content {
+    flex: 1; /* Allow content to take up remaining space */
+}
+
+.request-card h1{
+    margin: 0 0 8px 0;
+    font-size: 1.5rem;
+    color: #333333;
+    padding-bottom: 8px; /* Add padding for the divider */
+    border-bottom: 2px solid #eeeeee; /* Add a divider */
+}
+.request-card h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.25rem;
+    color: #333333;
+    padding-top: 8px;
+}
+
+.request-card p {
+    margin: 0 0 8px 0;
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+.request-card p strong {
+    color: #333333;
+}
+
+.button-container {
+    display: flex;
+    gap: 8px; /* Space between buttons */
+    margin-left: 16px; /* Add some space between content and buttons */
+}
+
+.approve-button,
+.reject-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.approve-button {
+    background-color: #4caf50; /* Green */
+    color: white;
+}
+
+.approve-button:hover {
+    background-color: #45a049; /* Darker green */
+}
+
+.reject-button {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+.reject-button:hover {
+    background-color: #e53935; /* Darker red */
+}

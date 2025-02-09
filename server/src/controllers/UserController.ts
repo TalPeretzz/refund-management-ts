@@ -69,7 +69,7 @@ class UserController {
   async updateUser(req: Request, res: Response): Promise<void> {
     const userId: string = req.params.id;
     const updates: Partial<IUser> = req.body;
-
+    console.log("updates", updates);
     try {
       if (!userId) {
         res.status(400).json({ message: "Missing user ID" });

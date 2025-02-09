@@ -45,12 +45,12 @@
   }
   
   /* Buttons in History Tab */
-  .history-tab button,
+  .history-tab .search-button,
   .date-filters .search-button {
     width: 100%;
     max-width: 150px;
     padding: 12px;
-    background-color: #007bff;
+    background-color: #38a169;
     border: none;
     border-radius: 5px;
     color: white;
@@ -61,15 +61,15 @@
     margin-top: 8px;
   }
   
-  .history-tab button:hover,
+  .history-tab .search-button:hover,
   .date-filters .search-button:hover {
-    background-color: #0056b3;
+    background-color: #2eac68;
     transform: scale(1.05);
   }
   
-  .history-tab button:focus,
+  .history-tab .search-button:focus,
   .date-filters .search-button:focus {
-    outline: 2px solid #0056b3;
+    outline: 2px solid #2eac68;
     outline-offset: 2px;
   }
   

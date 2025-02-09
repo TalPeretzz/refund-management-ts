@@ -71,15 +71,28 @@
     display: inline-block;
 }
 
-.navbar-right ul li a {
+/* Shared styles for <a> and <button> */
+.navbar-right ul li a,
+.navbar-right ul li button {
     color: white;
     font-size: 1rem;
     text-decoration: none;
     padding: 0.5rem 1rem;
     transition: font-size 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit; /* Ensure font matches the rest of the navbar */
+    display: inline-flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically center the text */
+    justify-content: center; /* Horizontally center the text */
+    line-height: 1.5; /* Ensure consistent line height */
+    vertical-align: middle; /* Align elements vertically */
 }
 
-.navbar-right ul li a:hover {
+/* Hover effect for both <a> and <button> */
+.navbar-right ul li a:hover,
+.navbar-right ul li button:hover {
     font-size: 1.1rem; /* Increase text size on hover */
 }
 
@@ -98,7 +111,8 @@
         gap: 10px;
     }
 
-    .navbar-right ul li a {
+    .navbar-right ul li a,
+    .navbar-right ul li button {
         padding: 0.5rem;
     }
 }

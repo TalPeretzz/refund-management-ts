@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import RequestCard from "./RequestCard";
 import { Request } from "../../types/Request";
 import { getHistoryRequests } from "../../services/requestService";
+import Logger from "../../utils/logger";
 
-const HistoryTab: React.FC = () => {
+interface roleProps {
+    role: string;
+}
+
+const HistoryTab: React.FC<roleProps> = ({ role }) => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [requests, setRequests] = useState<Request[]>([]);
@@ -29,7 +34,10 @@ const HistoryTab: React.FC = () => {
                 setRequests(data);
                 setErrorMessage(""); // Clear error messages
             } catch (error) {
-                console.log(error);
+                Logger.error(
+                    "Failed to fetch history. Please try again later.",
+                    error
+                );
                 setErrorMessage(
                     "Failed to fetch history. Please try again later."
                 );
@@ -59,6 +67,20 @@ const HistoryTab: React.FC = () => {
         }
     };
 
+    const isTimeFrameEntered = () => {
+        return startDate && endDate;
+    };
+
+    const handleApprove = () => {
+        alert("Request Approved!");
+        // Add your approval logic here
+    };
+
+    const handleReject = () => {
+        alert("Request Rejected!");
+        // Add your rejection logic here
+    };
+
     return (
         <div className="history-tab">
             <div className="date-filters">
@@ -86,11 +108,17 @@ const HistoryTab: React.FC = () => {
             </div>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <div className="request-list">
-                {requests.length === 0 && !errorMessage ? (
+                {requests.length === 0 && !isTimeFrameEntered ? (
                     <p>No historical requests for the selected time frame.</p>
                 ) : (
                     requests.map((request) => (
-                        <RequestCard key={request.id} request={request} />
+                        <RequestCard
+                            key={request.id}
+                            role={role}
+                            request={request}
+                            onApprove={handleApprove}
+                            onReject={handleReject}
+                        />
                     ))
                 )}
             </div>

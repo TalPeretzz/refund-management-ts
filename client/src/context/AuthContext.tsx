@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { loginUser } from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import Logger from "../utils/logger";
 
 interface AuthContextType {
-    user: { username: string; role: string } | null;
+    user: { username: string; role: string; id: string } | null;
     login: (username: string, password: string) => Promise<void>;
     isLoading: boolean;
     logout: () => void;
@@ -14,9 +16,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    const [user, setUser] = useState<{ username: string; role: string } | null>(
-        null
-    );
+    const [user, setUser] = useState<{
+        username: string;
+        role: string;
+        id: string;
+    } | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -32,9 +36,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         try {
             const { token, role } = await loginUser(username, password);
             localStorage.setItem("token", token);
-            localStorage.setItem("user", JSON.stringify({ username, role }));
-            setUser({ username, role });
-            console.log("role", role);
+            const decoded: { username: string; role: string; id: string } =
+                jwtDecode(token);
+            localStorage.setItem(
+                "user",
+                JSON.stringify({ username, role, id: decoded.id })
+            );
+            setUser({ username, role, id: decoded.id });
             if (role === "admin") {
                 navigate("/admin");
                 return;
@@ -42,10 +50,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             navigate("/employee");
         } catch (error) {
             if (error instanceof Error) {
-                console.error("Login failed:", error.message);
+                Logger.error("Login failed:", error.message);
             } else {
-                console.error("Login failed:", error);
+                Logger.error("Login failed:", error);
             }
+            throw new Error("Login failed");
         }
     };
 
@@ -66,6 +75,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
+        Logger.warn("context", context);
         throw new Error("useAuth must be used within an AuthProvider");
     }
     return context;

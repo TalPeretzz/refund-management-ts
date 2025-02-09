@@ -3,6 +3,7 @@ import InputField from "../components/InputField";
 import Button from "../components/Button";
 import { useAuth } from "../context/AuthContext";
 import "../styles/LoginPage.css";
+import Logger from "../utils/logger";
 
 const Login: React.FC = () => {
     const { login } = useAuth();
@@ -14,7 +15,7 @@ const Login: React.FC = () => {
         try {
             await login(username, password);
         } catch (err) {
-            console.log("Login failed:", err);
+            Logger.error("Login failed:", err);
             setError("Invalid username or password.");
         }
     };

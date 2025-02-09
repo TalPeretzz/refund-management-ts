@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/Login";
 import AdminPage from "./pages/AdminPage";
 import EmployeePage from "./pages/EmployeePage";
@@ -9,14 +9,12 @@ import { useAuth } from "./context/AuthContext";
 const AppRoutes: React.FC = () => {
     const { user, isLoading } = useAuth(); // Retrieve user data from AuthContext
 
-    console.log("User Role in AppRoutes:", user?.role);
-
     if (isLoading) {
         return <h2>Loading...</h2>;
     }
 
     if (!user) {
-        return <Navigate to="/" />;
+        return <LoginPage />;
     }
 
     return (

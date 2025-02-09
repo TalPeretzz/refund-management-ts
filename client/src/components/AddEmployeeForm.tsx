@@ -23,7 +23,6 @@ const AddEmployeeForm: React.FC<Props> = ({ onSubmit, employee }) => {
         const fetchManagers = async () => {
             try {
                 const data = await getManagers();
-                console.log("data", data);
                 setManagers(data);
             } catch (error) {
                 console.error("Failed to fetch managers:", error);
@@ -59,7 +58,8 @@ const AddEmployeeForm: React.FC<Props> = ({ onSubmit, employee }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(formData);
+        const employeeData = { ...formData, UserId: employee?.UserId };
+        onSubmit(employeeData);
     };
 
     return (

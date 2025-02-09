@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import db from "../models";
 import { IManager, IUser } from "../types/IUser";
-import { ModelAttributes } from "sequelize";
+import Logger from "../utils/logget";
 
 class UserService {
   private users: IUser[] = [];
@@ -25,6 +25,7 @@ class UserService {
     password: string
   ): Promise<{ token: string; role: string }> {
     const user = await db.User.findOne({ where: { Username: username } });
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -51,8 +52,18 @@ class UserService {
    * @throws An error if the retrieval fails.
    */
 
-  async getAllUsers(): Promise<IUser[]> {
+  async getAllUsers(managerId?: string): Promise<IUser[]> {
     try {
+      /*
+      {
+        include: {
+          model: db.EmployeeManager,
+          as: "Employees",
+          where: managerId ? { managerId } : undefined,
+          required: false,
+        },
+      }
+         */
       const users = await db.User.findAll();
       this.users = users.map((user) => user.get({ plain: true })) as IUser[];
       return this.users;
@@ -73,16 +84,16 @@ class UserService {
    */
   async createUser(user: Omit<IUser, "UserId">): Promise<IUser> {
     try {
-      console.log("user", user);
-      // Use Sequelize's `create` method to insert a new user
       const newUser = await db.User.create({
         FullName: user.FullName,
         Email: user.Email,
         Username: user.Username,
         Password: user.Password,
         Role: user.Role,
-        IsActive: user.IsActive ?? true, // Default to true if not provided
+        IsActive: user.IsActive ?? true,
       });
+
+      this.assignManager(newUser.UserId!, user.ManagerId!);
 
       // Convert Sequelize instance to plain object
       return newUser.get({ plain: true }) as IUser;
@@ -113,6 +124,7 @@ class UserService {
 
       // Update the user with new fields
       const updatedUser = await user.update(updates);
+      if (updates.ManagerId) this.assignManager(userId, updates.ManagerId!);
 
       // Return the updated user as an IUser object
       return updatedUser.get() as IUser;
@@ -142,6 +154,22 @@ class UserService {
       } else {
         throw new Error("Failed to retrieve managers: Unknown error");
       }
+    }
+  }
+
+  async assignManager(employeeId: string, managerId: string) {
+    try {
+      return await db.EmployeeManager.create({
+        employeeId,
+        managerId,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        Logger.error(`Failed to assign manager: ${error.message}`);
+      } else {
+        Logger.error("Failed to assign manager: Unknown error");
+      }
+      throw new Error(`Failed to assign manager`);
     }
   }
 

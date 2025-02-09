@@ -10,6 +10,7 @@ import {
 import { Employee } from "../types/Employee";
 import "../styles/AdminPage.css";
 import Navbar from "../components/Navbar";
+import Logger from "../utils/logger";
 
 const AdminPage: React.FC = () => {
     const [searchResults, setSearchResults] = useState<Employee[]>([]);
@@ -55,14 +56,13 @@ const AdminPage: React.FC = () => {
             setSelectedEmployee(null);
             alert("Employee updated successfully!");
         } catch (error) {
-            console.error("Error updating employee:", error);
+            Logger.error("Error updating employee:", error);
             alert("Failed to update employee. Please try again later.");
         }
     };
 
     // Open modal in edit mode
     const openEditModal = (employee: Employee) => {
-        console.log("employee", employee);
         setEditMode(true);
         setSelectedEmployee(employee);
         setModalOpen(true);

@@ -6,6 +6,7 @@ export interface IUser {
   Password: string;
   Role: "employee" | "manager" | "account-manager" | "admin";
   IsActive?: boolean; // Default value is true
+  ManagerId?: string;
 }
 
 export interface IManager {

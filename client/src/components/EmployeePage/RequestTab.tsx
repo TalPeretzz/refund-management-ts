@@ -1,24 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RequestCard from "./RequestCard";
 import { Request } from "../../types/Request";
 import Modal from "../Modal";
 import CreateRequestForm from "./RequestForm";
+import { getRequests } from "../../services/requestService";
 
-const RequestTab: React.FC = () => {
+interface RequestTabProps {
+    role: string;
+}
+
+const RequestTab: React.FC<RequestTabProps> = ({ role }) => {
     const [requests, setRequests] = useState<Request[]>([]);
     const [isModalOpen, setModalOpen] = useState(false);
     const [newRequestTitle, setNewRequestTitle] = useState("");
     const [newRequestDescription, setNewRequestDescription] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchRequests = async () => {
+            try {
+                const data = await getRequests();
+                setRequests(data);
+                setLoading(false);
+            } catch (err) {
+                setError("Failed to load requests.");
+                console.error("Error fetching requests:", err);
+            } finally {
+                // setError("No pending requests");
+                setLoading(false);
+            }
+        };
+        fetchRequests();
+    }, []);
+
+    const handleApprove = () => {
+        alert("Request Approved!");
+        // Add your approval logic here
+    };
+
+    const handleReject = () => {
+        alert("Request Rejected!");
+        // Add your rejection logic here
+    };
 
     const handleCreateRequest = () => {
         const newRequest: Request = {
-            id: requests.length + 1,
             title: newRequestTitle,
             description: newRequestDescription,
-            employeeId: requests.length + 1,
-            managerId: 1,
             status: "Pending",
             date: new Date().toISOString(),
+            amount: 0,
         };
         setRequests((prev) => [...prev, newRequest]);
         setModalOpen(false);
@@ -35,9 +67,17 @@ const RequestTab: React.FC = () => {
                 Create New Request
             </button>
             <h2>Open Requests</h2>
+            {loading && <p>Loading requests...</p>}
+            {error && <p className="error-message">{error}</p>}
             <div className="request-list">
                 {requests.map((request) => (
-                    <RequestCard key={request.id} request={request} />
+                    <RequestCard
+                        key={request.id}
+                        request={request}
+                        role={role}
+                        onApprove={handleApprove}
+                        onReject={handleReject}
+                    />
                 ))}
             </div>
 
@@ -81,19 +121,7 @@ const RequestTab: React.FC = () => {
 
             {isModalOpen && (
                 <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-                    <CreateRequestForm
-                        onSubmit={handleCreateRequest}
-                        handleCreateRequest={function (request: {
-                            id: string;
-                            title: string;
-                            description: string;
-                            status: string;
-                            employeeId: string;
-                        }): void {
-                            console.log("request", request);
-                            throw new Error("Function not implemented.");
-                        }}
-                    />
+                    <CreateRequestForm onSubmit={handleCreateRequest} />
                 </Modal>
             )}
         </div>

@@ -1,15 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "../styles/Navbar.css";
+import { Employee } from "../types/Employee";
+import Modal from "./Modal";
+import AddEmployeeForm from "./AddEmployeeForm";
+import { updateEmployee } from "../services/adminService";
 
 const Navbar: React.FC = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+        null
+    );
 
     const handleLogout = () => {
         logout();
         navigate("/"); // Redirect to login
+    };
+
+    const openEditModal = (employee: Employee | null) => {
+        setSelectedEmployee(employee);
+        setModalOpen(true);
+    };
+
+    const handleEditEmployee = async (updatedEmployee: Employee) => {
+        try {
+            await updateEmployee(updatedEmployee);
+
+            // const updatedResults = searchResults.map((emp) =>
+            //     emp.UserId === updatedData.UserId ? updatedData : emp
+            // );
+            // setSearchResults(updatedResults);
+            setModalOpen(false);
+            setSelectedEmployee(null);
+            alert("Employee updated successfully!");
+        } catch (error) {
+            console.error("Error updating employee:", error);
+            alert("Failed to update employee. Please try again later.");
+        }
     };
 
     return (
@@ -114,9 +144,12 @@ const Navbar: React.FC = () => {
                     <ul>
                         {/* Profile Link */}
                         <li>
-                            <a href="/" className="profile-link">
+                            <button
+                                className="profile-btn"
+                                onClick={() => openEditModal(null)}
+                            >
                                 {user?.username}
-                            </a>
+                            </button>
                         </li>
 
                         {/* Logout Link */}
@@ -134,6 +167,17 @@ const Navbar: React.FC = () => {
                         </li>
                     </ul>
                 </div>
+                {isModalOpen && (
+                    <Modal
+                        isOpen={isModalOpen}
+                        onClose={() => setModalOpen(false)}
+                    >
+                        <AddEmployeeForm
+                            onSubmit={handleEditEmployee}
+                            employee={selectedEmployee}
+                        />
+                    </Modal>
+                )}
             </div>
         </nav>
     );

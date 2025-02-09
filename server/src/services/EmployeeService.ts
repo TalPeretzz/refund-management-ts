@@ -2,15 +2,21 @@ import UserService from "./UserService";
 import ReportService from "./ReportService";
 
 export class EmployeeService extends UserService {
-  private report: ReportService;
-  constructor(report: ReportService) {
+  // private report: ReportService;
+
+  constructor() {
     super();
-    this.report = report;
   }
 
   async refundRequest() {}
 
   async historyReport() {}
+
+  async getEmployeeById(employeeId: string) {
+    // return this.getEmployeeById(employeeId);
+  }
+
+  async getEmployeeManagerByEmployeeId(employeeId: string) {}
 }
 
 export default EmployeeService;

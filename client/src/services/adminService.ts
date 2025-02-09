@@ -14,10 +14,7 @@ export const addEmployee = async (newEmployee: Employee): Promise<Employee> => {
 };
 
 export const updateEmployee = async (employee: Employee): Promise<Employee> => {
-    const response = await axios.post(
-        `/api/users/${employee.UserId}`,
-        employee
-    );
+    const response = await axios.put(`/api/users/${employee.UserId}`, employee);
 
     return response.data.data;
 };

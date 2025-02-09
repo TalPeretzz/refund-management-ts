@@ -1,80 +1,49 @@
-import { Request } from "../types/Request";
+import { Request, RequestPayload } from "../types/Request";
+import axios from "axios";
+import { getUserIdFromToken } from "../utils/jwt.utils";
+import Logger from "../utils/logger";
 
 const API_URL = "/api/requests"; // Replace with your actual backend URL
 
-const request: Request[] = [
-    {
-        id: 1,
-        title: "Travel Reimbursement",
-        description: "Reimbursement for travel expenses.",
-        status: "Pending",
-        employeeId: 101,
-        managerId: 201,
-        date: "2025-01-10",
-    },
-    {
-        id: 2,
-        title: "Conference Fees",
-        description: "Fees for attending the annual tech conference.",
-        status: "Approved",
-        employeeId: 102,
-        managerId: 202,
-        date: "2025-01-15",
-    },
-    {
-        id: 3,
-        title: "Training Program",
-        description: "Payment for online training program.",
-        status: "Pending",
-        employeeId: 103,
-        managerId: 201,
-        date: "2025-01-18",
-    },
-    {
-        id: 4,
-        title: "Office Supplies",
-        description: "Reimbursement for office supplies purchase.",
-        status: "Approved",
-        employeeId: 104,
-        managerId: 202,
-        date: "2025-01-20",
-    },
-    {
-        id: 5,
-        title: "Client Dinner",
-        description: "Reimbursement for dinner with a client.",
-        status: "Pending",
-        employeeId: 101,
-        managerId: 201,
-        date: "2025-01-25",
-    },
-];
-
-// Fetch all requests
-export const getAllRequests = async (): Promise<Request[]> => {
-    return request;
-    //   const response = await fetch(API_URL);
-    //   if (!response.ok) {
-    //     throw new Error('Failed to fetch requests');
-    //   }
-    //   return await response.json();
+/**
+ * Fetches all requests from the backend.
+ * @returns A list of requests.
+ */
+export const getRequests = async () => {
+    try {
+        const token = localStorage.getItem("token");
+        const userId = getUserIdFromToken();
+        const response = await axios.get(`${API_URL}/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        Logger.error("Error fetching requests:", error);
+        throw error;
+    }
 };
 
-// Create a new request
-export const createRequest = async (
-    newRequest: Partial<Request>
-): Promise<Request> => {
-    const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newRequest),
-    });
-    if (!response.ok) {
-        throw new Error("Failed to create request");
+/**
+ * Sends a new expense request to the backend.
+ * @param request - The request data.
+ * @returns The created request response.
+ */
+export const createRequest = async (request: RequestPayload) => {
+    try {
+        const token = localStorage.getItem("token");
+        const response = await axios.post(`${API_URL}`, request, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+        return response.data;
+    } catch (error) {
+        Logger.error("Error creating request:", error);
+        throw error;
     }
-    return await response.json();
 };
 
 // Fetch requests filtered by a date range
@@ -124,25 +93,44 @@ export const getHistoryRequests = async (
     from: string,
     to: string
 ): Promise<Request[]> => {
+    const token = localStorage.getItem("token");
     try {
-        const response = await fetch(
-            `${API_URL}/history?from=${from}&to=${to}`
+        const response = await axios.get(
+            `${API_URL}?startDate=${from}&endDate=${to}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
         );
-        if (!response.ok) {
-            throw new Error("Failed to fetch history requests");
-        }
-        return await response.json();
+        return response.data;
     } catch (error) {
-        console.error(error);
+        if (error instanceof Error) {
+            Logger.error(error.message, error);
+        } else {
+            Logger.error("An unknown error occurred", error);
+        }
         throw error;
     }
 };
 
 export const getManagerPendingRequests = async (): Promise<Request[]> => {
-    const response = await fetch(`${API_URL}/manager-pending`);
-    if (!response.ok)
-        throw new Error("Failed to fetch manager pending requests");
-    return await response.json();
+    const token = localStorage.getItem("token");
+    try {
+        const userId = getUserIdFromToken();
+        const response = await axios.get(
+            `${API_URL}/${userId}/manager-pending`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        Logger.error("Error fetching manager pending requests:", error);
+        throw error;
+    }
 };
 
 export const getAccountManagerPendingRequests = async (): Promise<

@@ -10,7 +10,6 @@ class AuthController {
     res: Response
   ): Promise<void> => {
     const { username, password } = req.body;
-
     try {
       const { token, role } = await UserService.login(username, password);
       res.json({ token, role });
