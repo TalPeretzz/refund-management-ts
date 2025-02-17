@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import db from "../models";
-import { IManager, IUser } from "../types/IUser";
+import { IManager, IUser, transformUser } from "../types/IUser";
 import Logger from "../utils/logget";
 
 class UserService {
@@ -64,8 +64,26 @@ class UserService {
         },
       }
          */
-      const users = await db.User.findAll();
-      this.users = users.map((user) => user.get({ plain: true })) as IUser[];
+      if (this.users.length > 0) return this.users;
+      const users = await db.User.findAll({
+        include: [
+          {
+            model: db.EmployeeManager,
+            as: "Manager",
+            required: false,
+            include: [
+              {
+                model: db.User,
+                as: "ManagerUser",
+                attributes: ["UserId", "FullName", "Email", "Role"],
+              },
+            ],
+          },
+        ],
+      });
+
+      this.users = users.map(transformUser) as IUser[];
+      // console.log("users", this.users);
       return this.users;
     } catch (error) {
       if (error instanceof Error) {
@@ -94,7 +112,7 @@ class UserService {
       });
 
       this.assignManager(newUser.UserId!, user.ManagerId!);
-
+      this.getAllUsers();
       // Convert Sequelize instance to plain object
       return newUser.get({ plain: true }) as IUser;
     } catch (error) {
@@ -126,6 +144,7 @@ class UserService {
       const updatedUser = await user.update(updates);
       if (updates.ManagerId) this.assignManager(userId, updates.ManagerId!);
 
+      this.getAllUsers();
       // Return the updated user as an IUser object
       return updatedUser.get() as IUser;
     } catch (error) {

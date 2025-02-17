@@ -2,13 +2,13 @@ import { DataTypes, Model, Sequelize } from "sequelize";
 
 export default (sequelize: Sequelize) => {
   class RefundRequest extends Model {
-    public id!: string;
+    public id?: string;
     public title!: string;
     public description!: string;
     public amount!: number;
     public attachment!: string | null;
     public employeeId!: string;
-    public status!: "Pending" | "Approved" | "Rejected";
+    public status!: "Pending" | "Approved" | "Rejected" | "Manager Approved";
   }
 
   RefundRequest.init(
@@ -39,7 +39,12 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
       status: {
-        type: DataTypes.ENUM("Pending", "Approved", "Rejected"),
+        type: DataTypes.ENUM(
+          "Pending",
+          "Approved",
+          "Rejected",
+          "Manager Approved"
+        ),
         defaultValue: "Pending",
       },
     },

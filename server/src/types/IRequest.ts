@@ -1,12 +1,16 @@
 export interface IRequest {
   id?: string;
-  date: string;
+  date?: string;
   title: string;
   description: string;
   amount: number;
-  attachment: File | null;
-  status: "Pending" | "Approved" | "Rejected";
+  attachment: string | null;
+  status?: "Pending" | "Approved" | "Rejected" | "Manager Approved";
   employeeId: string;
+}
+
+export interface IRequestResponse extends IRequest {
+  employeeName: string;
 }
 
 export const transformRequest = (data: any): IRequest => {

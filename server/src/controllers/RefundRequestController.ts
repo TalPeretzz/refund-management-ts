@@ -1,12 +1,18 @@
 import { Request, Response } from "express";
 import { AuthRequest } from "../middlewares/authMiddleware";
 import RefundRequestService from "../services/RefundRequestService";
+import EmployeeService from "../services/EmployeeService";
 
 class RefundRequestController {
   private refundRequestService: RefundRequestService;
+  private employeeService: EmployeeService;
 
-  constructor(refundRequestService: RefundRequestService) {
+  constructor(
+    refundRequestService: RefundRequestService,
+    employeeService: EmployeeService
+  ) {
     this.refundRequestService = refundRequestService;
+    this.employeeService = employeeService;
   }
 
   /**
@@ -18,7 +24,7 @@ class RefundRequestController {
       //   const { user } = req.user;
       const parsedStartDate = startDate ? new Date(startDate as string) : null;
       const parsedEndDate = endDate ? new Date(endDate as string) : null;
-      const requests = await this.refundRequestService.getAllRequests(
+      const requests = await this.employeeService.historyReport(
         parsedStartDate,
         parsedEndDate
       );
@@ -37,7 +43,8 @@ class RefundRequestController {
   async getRequestsByEmployee(req: AuthRequest, res: Response) {
     try {
       const { employeeId } = req.params;
-      const requests = await this.refundRequestService.getRequestsByEmployee(
+
+      const requests = await this.employeeService.getRequestsByEmployee(
         employeeId
       );
       res.json(requests);
@@ -56,12 +63,34 @@ class RefundRequestController {
   async getManagerPendingRequests(req: AuthRequest, res: Response) {
     try {
       const { managerId } = req.params;
-      const requests =
-        await this.refundRequestService.getManagerPendingRequests(managerId);
+      const requests = await this.employeeService.getManagerPendingRequests(
+        managerId
+      );
+
       res.json(requests);
     } catch (error) {
       res.status(500).json({
         message: "Error fetching manager pending requests",
+        error: (error as Error).message,
+      });
+    }
+  }
+
+  /**
+   *
+   * @param req
+   * @param res
+   * Get refund requests pending account manager approval
+   */
+  async getAccountManagerPendingRequests(req: AuthRequest, res: Response) {
+    try {
+      const { managerId } = req.params;
+      const requests =
+        await this.employeeService.getAccountManagerPendingRequests(managerId);
+      res.json(requests);
+    } catch (error) {
+      res.status(500).json({
+        message: "Error fetching account manager pending requests",
         error: (error as Error).message,
       });
     }
@@ -73,8 +102,8 @@ class RefundRequestController {
   async createRequest(req: AuthRequest, res: Response) {
     try {
       const { title, description, amount, employeeId } = req.body;
-      const attachment = req.file ? req.file : null;
-      const request = await this.refundRequestService.createRequest({
+      const attachment = req.file ? req.file.path : null;
+      const request = await this.employeeService.refundRequest({
         title,
         description,
         amount: parseFloat(amount),
@@ -97,8 +126,18 @@ class RefundRequestController {
     try {
       const { id } = req.params;
       const { status } = req.body;
-      const updatedRequest =
-        await this.refundRequestService.updateRequestStatus(id, status);
+      if (status === "Rejected") {
+        const updatedRequest = await this.refundRequestService.rejectRequest(
+          id
+        );
+        res.json(updatedRequest);
+        return;
+      }
+
+      const updatedRequest = await this.refundRequestService.approveRequest(
+        id,
+        status
+      );
       res.json(updatedRequest);
     } catch (error) {
       res.status(500).json({

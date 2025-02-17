@@ -19,10 +19,14 @@ const db = {
   EmployeeManager: EmployeeManager(sequelize),
 };
 
-// db.User.hasMany(db.EmployeeManager, {
-//   foreignKey: "managerId",
-//   as: "Employees",
-// });
-// db.User.hasOne(db.EmployeeManager, { foreignKey: "employeeId", as: "Manager" });
+db.User.hasOne(db.EmployeeManager, {
+  foreignKey: "employeeId",
+  as: "EmployeeManager",
+});
+
+db.EmployeeManager.belongsTo(db.User, {
+  foreignKey: "managerId",
+  as: "ManagerUser",
+});
 
 export default db;
