@@ -87,6 +87,24 @@ class UserController {
       });
     }
   }
+
+  async getuserByID(req: Request, res: Response): Promise<void> {
+    const userId: string = req.params.id;
+    try {
+      if (!userId) {
+        res.status(400).json({ message: "Missing user ID" });
+        return;
+      }
+
+      const user = await this.userService.getUserById(userId);
+      res.status(200).json({ data: user });
+    } catch (error) {
+      res.status(500).json({
+        message: "Failed to retrieve user",
+        error: (error as Error).message,
+      });
+    }
+  }
 }
 
 export default UserController;

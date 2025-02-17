@@ -23,3 +23,8 @@ export const getManagers = async (): Promise<Employee[]> => {
     const { data } = await axios.get("/api/users/managers");
     return data.data;
 };
+
+export const getEmployee = async (id: string): Promise<Employee> => {
+    const response = await axios.get(`/api/users/${id}`);
+    return response.data.data;
+};

@@ -5,8 +5,6 @@ import RefundRequestService from "./RefundRequestService";
 import { IRequest } from "../types/IRequest";
 
 export class EmployeeService extends UserService {
-  // private report: ReportService;
-  // private userService: UserService;
   private refundRequestService: RefundRequestService;
   private employee?: IEmployee;
   private employees: IEmployee[] = [];
@@ -84,22 +82,22 @@ export class EmployeeService extends UserService {
       (employee) => employee.UserId
     );
 
-    const pandingRqeuset =
+    const pendingRequest =
       await this.refundRequestService.getManagerPendingRequests(["Pending"]);
 
-    const onlyReleventEmployees = pandingRqeuset.filter((request) =>
+    const onlyRelevantEmployees = pendingRequest.filter((request) =>
       managerEmployeeIds.includes(request.employeeId)
     );
-    return this.buildResponse(onlyReleventEmployees, managerEmployee);
+    return this.buildResponse(onlyRelevantEmployees, managerEmployee);
   }
 
   async getAccountManagerPendingRequests(accountManagerId: string) {
-    const pandingRqeuset =
+    const pendingRequest =
       await this.refundRequestService.getManagerPendingRequests([
         "Pending",
         "Manager Approved",
       ]);
-    return this.buildResponse(pandingRqeuset, this.employees);
+    return this.buildResponse(pendingRequest, this.employees);
   }
 
   private buildResponse(requests: IRequest[], employee: IEmployee[]) {

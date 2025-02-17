@@ -3,6 +3,7 @@ import RequestCard from "./RequestCard";
 import { Request } from "../../types/Request";
 import { getHistoryRequests } from "../../services/requestService";
 import Logger from "../../utils/logger";
+import ExportSection from "../ExportSection";
 
 interface roleProps {
     role: string;
@@ -96,6 +97,7 @@ const HistoryTab: React.FC<roleProps> = ({ role }) => {
                     Search
                 </button>
             </div>
+            {requests.length > 0 && <ExportSection requests={requests} />}
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <div className="request-list">
                 {requests.length === 0 && !isTimeFrameEntered ? (

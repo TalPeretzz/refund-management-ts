@@ -5,7 +5,7 @@ import "../styles/Navbar.css";
 import { Employee } from "../types/Employee";
 import Modal from "./Modal";
 import AddEmployeeForm from "./AddEmployeeForm";
-import { updateEmployee } from "../services/adminService";
+import { getEmployee, updateEmployee } from "../services/adminService";
 
 const Navbar: React.FC = () => {
     const { user, logout } = useAuth();
@@ -20,19 +20,15 @@ const Navbar: React.FC = () => {
         navigate("/"); // Redirect to login
     };
 
-    const openEditModal = (employee: Employee | null) => {
-        setSelectedEmployee(employee);
+    const openEditModal = async () => {
+        const currentEmployee = await getEmployee(user!.id!);
+        setSelectedEmployee(currentEmployee);
         setModalOpen(true);
     };
 
     const handleEditEmployee = async (updatedEmployee: Employee) => {
         try {
             await updateEmployee(updatedEmployee);
-
-            // const updatedResults = searchResults.map((emp) =>
-            //     emp.UserId === updatedData.UserId ? updatedData : emp
-            // );
-            // setSearchResults(updatedResults);
             setModalOpen(false);
             setSelectedEmployee(null);
             alert("Employee updated successfully!");
@@ -146,7 +142,7 @@ const Navbar: React.FC = () => {
                         <li>
                             <button
                                 className="profile-btn"
-                                onClick={() => openEditModal(null)}
+                                onClick={() => openEditModal()}
                             >
                                 {user?.username}
                             </button>

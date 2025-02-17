@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import Logger from "../utils/logget";
+import db from "../models";
 
 dotenv.config();
 
@@ -26,7 +27,9 @@ class NotificationService {
   async sendNewRequestNotification(
     to: string,
     employeeName: string,
-    requestTitle: string
+    requestTitle: string,
+    requestId: string,
+    status: string
   ) {
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -43,6 +46,12 @@ Please log in to review and approve/reject the request.
 Best regards,
 Refund Management System`,
     };
+    const message = JSON.stringify(mailOptions);
+    const notification = await db.Notification.create({
+      requestId,
+      message,
+      status,
+    });
 
     try {
       await this.transporter.sendMail(mailOptions);

@@ -1,115 +1,189 @@
 /* History Tab Container */
 .history-tab {
-    padding: 1.5rem;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* Date Filters Container */
+.date-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Export Section */
+.export-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Export Dropdown */
+.export-section label {
+  font-weight: bold;
+  color: #333;
+  margin-right: 10px;
+}
+
+.export-section select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Export Button */
+.export-button {
+  padding: 10px 15px;
+  background-color: #38a169;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.export-button:hover {
+  background-color: #2eac68;
+  transform: scale(1.05);
+}
+
+.export-button:focus {
+  outline: 2px solid #2eac68;
+  outline-offset: 2px;
+}
+
+/* Labels in History Tab */
+.history-tab label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+/* Input Fields */
+.history-tab input[type="date"],
+.history-tab input[type="text"],
+.history-tab textarea,
+.export-section select {
+  width: 100%;
+  max-width: 250px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.history-tab textarea {
+  resize: none;
+}
+
+/* Buttons in History Tab */
+.history-tab .search-button,
+.date-filters .search-button {
+  width: 100%;
+  max-width: 150px;
+  padding: 12px;
+  background-color: #38a169;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 8px;
+}
+
+.history-tab .search-button:hover,
+.date-filters .search-button:hover {
+  background-color: #2eac68;
+  transform: scale(1.05);
+}
+
+.history-tab .search-button:focus,
+.date-filters .search-button:focus {
+  outline: 2px solid #2eac68;
+  outline-offset: 2px;
+}
+
+/* Error Messages */
+.history-tab p.error-message {
+  color: red;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+/* Container for Pending Requests */
+.pending-requests {
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pending-requests h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* Request Card */
+.pending-requests .request-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.pending-requests .request-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .date-filters,
+  .export-section {
+      flex-direction: column;
+      align-items: stretch;
   }
-  
-  /* Date Filters Container */
-  .date-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
-  
-  /* Labels in History Tab */
-  .history-tab label {
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 0.5rem;
-  }
-  
-  /* Input Fields */
+
   .history-tab input[type="date"],
-  .history-tab input[type="text"],
-  .history-tab textarea {
-    width: 100%;
-    max-width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    color: #333;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
+  .export-section select {
+      max-width: 100%;
   }
-  
-  .history-tab textarea {
-    resize: none;
+
+  .export-button {
+      width: 100%;
   }
-  
-  /* Buttons in History Tab */
-  .history-tab .search-button,
-  .date-filters .search-button {
-    width: 100%;
-    max-width: 150px;
-    padding: 12px;
-    background-color: #38a169;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 8px;
-  }
-  
-  .history-tab .search-button:hover,
-  .date-filters .search-button:hover {
-    background-color: #2eac68;
-    transform: scale(1.05);
-  }
-  
-  .history-tab .search-button:focus,
-  .date-filters .search-button:focus {
-    outline: 2px solid #2eac68;
-    outline-offset: 2px;
-  }
-  
-  /* Error Messages */
-  .history-tab p {
-    color: red;
-    font-size: 1rem;
-    font-weight: bold;
-    margin-top: 0.5rem;
-  }
-  
-  /* Container for pending requests */
-  .pending-requests {
-    padding: 1.5rem;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin-top: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .pending-requests h2 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 1rem;
-  }
-  
-  .pending-requests .request-card {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease;
-  }
-  
-  .pending-requests .request-card:hover {
-    transform: translateY(-5px);
-  }
-  
+}

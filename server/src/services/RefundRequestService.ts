@@ -56,8 +56,11 @@ class RefundRequestService {
 
     NotificationService.sendNewRequestNotification(
       employee.Email,
+
       employee.FullName,
-      data.title
+      data.title,
+      transformedRequests.id!,
+      transformedRequests.status!
     );
     return transformedRequests;
   }

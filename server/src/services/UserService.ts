@@ -157,6 +157,28 @@ class UserService {
   }
 
   /**
+   * get a user by ID
+   * @param userId
+   * @returns user object
+   * @throws An error if the user is not found
+   */
+  async getUserById(userId: string): Promise<IUser> {
+    try {
+      const user = this.users.find((user) => user.UserId === userId);
+      if (!user) {
+        throw new Error(`User with ID ${userId} not found.`);
+      }
+      return user;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to retrieve user: ${error.message}`);
+      } else {
+        throw new Error("Failed to retrieve user: Unknown error");
+      }
+    }
+  }
+
+  /**
    * get all managers
    * @returns An array of IUser objects.
    * @throws An error if the retrieval fails.
