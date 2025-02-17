@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+      /* Language Options */
+      "target": "ES6",                          // Specifies the ECMAScript target version
+      "lib": ["DOM", "DOM.Iterable", "ESNext"], // Includes libraries for React and modern JS features
+  
+      /* Module Resolution Options */
+      "module": "ESNext",                       // Specifies the module code generation
+      "moduleResolution": "Node",              // Resolves modules in Node.js style
+      "esModuleInterop": true,                  // Enables default imports for CommonJS modules
+      "resolveJsonModule": true,                // Allows importing `.json` files
+  
+      /* Strict Type-Checking Options */
+      "strict": true,                           // Enables all strict type-checking options
+      "forceConsistentCasingInFileNames": true, // Ensures consistent file naming across OS
+  
+      /* JSX Options */
+      "jsx": "react-jsx",                       // Uses the new JSX runtime for React 17+
+  
+      /* Compilation Options */
+      "allowJs": true,                          // Allows JavaScript files to be compiled
+      "noEmit": true,                           // Does not emit output files (useful for React)
+      "isolatedModules": true,                  // Ensures every file is treated as a module
+      "skipLibCheck": true                      // Skips type checking of declaration files
+    },
+    "include": ["src"],                         // Specifies files to include
+    "exclude": ["node_modules", "dist"]         // Excludes unnecessary files and directories
+  }
+  

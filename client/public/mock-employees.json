@@ -1,0 +1,30 @@
+{
+    "status": "success",
+    "data": [
+      {
+        "id": 1,
+        "username": "johndoe",
+        "fullName": "John Doe",
+        "role": "Manager",
+        "manager": "Sarah Smith",
+        "email": "johndoe@example.com"
+      },
+      {
+        "id": 2,
+        "username": "janesmith",
+        "fullName": "Jane Smith",
+        "role": "Employee",
+        "manager": "John Doe",
+        "email": "janesmith@example.com"
+      },
+      {
+        "id": 3,
+        "username": "bobjohnson",
+        "fullName": "Bob Johnson",
+        "role": "Employee",
+        "manager": "John Doe",
+        "email": "bobjohnson@example.com"
+      }
+    ]
+  }
+  

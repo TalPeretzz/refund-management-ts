@@ -1,0 +1,131 @@
+/* Container for the entire page */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4; /* רקע בהיר */
+}
+
+/* Unified login box including logo, title, and form */
+.login-box {
+  background: rgba(255, 255, 255, 0.95); /* רקע אחיד עם שקיפות עדינה */
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  width: 380px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 5rem; /* מרווח ללוגו */
+}
+
+/* Logo container positioned inside the box */
+.logo-container {
+  position: absolute;
+  top: -50px; /* שיבוץ חלקי של הלוגו מחוץ לקופסה */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #2eac68;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 5px solid white; /* יצירת מראה מחובר לקופסה */
+}
+
+/* Logo SVG inside the container */
+.logo-container .login-box svg {
+  width: 60px;
+  height: 60px;
+}
+
+/* App name styling */
+.app-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2eac68;
+  margin-top: 1rem;
+}
+
+/* The login form container */
+.login-form {
+  width: 100%;
+  text-align: center;
+}
+
+/* Heading for the form */
+.login-form h1 {
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Error message styles */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+/* Input fields */
+.input-field {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.input-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.input-field input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.input-field input:focus {
+  border-color: #38a169;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+/* Button styles */
+.btn {
+  background-color: #38a169;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #2eac68;
+}
+
+/* Extra small text at the bottom */
+.small-text {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: #888;
+}
