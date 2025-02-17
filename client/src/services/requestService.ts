@@ -78,6 +78,28 @@ export const updateRequest = async (
     return await response.json();
 };
 
+export const updateRequestStatus = async (
+    id: string,
+    status: string
+): Promise<Request> => {
+    const token = localStorage.getItem("token");
+    try {
+        const response = await axios.put(
+            `${API_URL}/${id}`,
+            { status },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        Logger.error("Error approving request:", error);
+        throw error;
+    }
+};
+
 // Delete a request
 export const deleteRequest = async (id: number): Promise<void> => {
     const response = await fetch(`${API_URL}/${id}`, {
@@ -136,8 +158,20 @@ export const getManagerPendingRequests = async (): Promise<Request[]> => {
 export const getAccountManagerPendingRequests = async (): Promise<
     Request[]
 > => {
-    const response = await fetch(`${API_URL}/account-manager-pending`);
-    if (!response.ok)
-        throw new Error("Failed to fetch account manager pending requests");
-    return await response.json();
+    const token = localStorage.getItem("token");
+    try {
+        const userId = getUserIdFromToken();
+        const response = await axios.get(
+            `${API_URL}/${userId}/account-manager-pending`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        Logger.error("Error fetching manager pending requests:", error);
+        throw error;
+    }
 };

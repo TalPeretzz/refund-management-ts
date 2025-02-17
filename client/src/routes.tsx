@@ -23,11 +23,15 @@ const AppRoutes: React.FC = () => {
             <Route path="/" element={<LoginPage />} />
 
             {/* Protected Route: Employee Page (Only for employees and managers) */}
-            {["employee", "manager"].includes(user.role) && (
+            {["employee", "manager", "account-manager"].includes(user.role) && (
                 <Route
                     element={
                         <ProtectedRoute
-                            allowedRoles={["employee", "manager"]}
+                            allowedRoles={[
+                                "employee",
+                                "manager",
+                                "account-manager",
+                            ]}
                         />
                     }
                 >

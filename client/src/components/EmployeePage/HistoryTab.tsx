@@ -71,16 +71,6 @@ const HistoryTab: React.FC<roleProps> = ({ role }) => {
         return startDate && endDate;
     };
 
-    const handleApprove = () => {
-        alert("Request Approved!");
-        // Add your approval logic here
-    };
-
-    const handleReject = () => {
-        alert("Request Rejected!");
-        // Add your rejection logic here
-    };
-
     return (
         <div className="history-tab">
             <div className="date-filters">
@@ -116,8 +106,6 @@ const HistoryTab: React.FC<roleProps> = ({ role }) => {
                             key={request.id}
                             role={role}
                             request={request}
-                            onApprove={handleApprove}
-                            onReject={handleReject}
                         />
                     ))
                 )}

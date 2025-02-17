@@ -16,31 +16,6 @@ const EmployeePage: React.FC<{ role: string }> = ({ role }) => {
     const [activeTab, setActiveTab] = useState<
         "requests" | "history" | "pending"
     >("requests");
-    // const [pendingRequests, setPendingRequests] = useState<Request[]>([]);
-    // const [errorMessage, setErrorMessage] = useState("");
-
-    // useEffect(() => {
-    //     if (role === "manager" || role === "account-manager") {
-    //         const fetchPendingRequests = async () => {
-    //             try {
-    //                 if (role === "manager") {
-    //                     const data = await getManagerPendingRequests();
-    //                     setPendingRequests(data);
-    //                 } else if (role === "account-manager") {
-    //                     const data = await getAccountManagerPendingRequests();
-    //                     setPendingRequests(data);
-    //                 }
-    //             } catch (error) {
-    //                 console.log("error", error);
-    //                 setErrorMessage(
-    //                     "Failed to fetch pending requests. Please try again later."
-    //                 );
-    //             }
-    //         };
-
-    //         fetchPendingRequests();
-    //     }
-    // }, [role]);
 
     return (
         <div className="employee-page">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import RequestCard from "./RequestCard";
 import { Request } from "../../types/Request";
 import {
@@ -12,12 +12,16 @@ interface PendingRequestsTabProps {
 }
 
 const PendingRequestsTab: React.FC<PendingRequestsTabProps> = ({ role }) => {
-    // const [requests, setRequests] = useState<Request[]>([]);
     const [pendingRequests, setPendingRequests] = useState<Request[]>([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+    const hasFetched = useRef(false);
 
     useEffect(() => {
+        if (hasFetched.current) return;
+
+        hasFetched.current = true;
+
         if (role === "manager" || role === "account-manager") {
             const fetchPendingRequests = async () => {
                 try {
@@ -44,33 +48,6 @@ const PendingRequestsTab: React.FC<PendingRequestsTabProps> = ({ role }) => {
         }
     }, [role]);
 
-    // useEffect(() => {
-    //     const fetchRequests = async () => {
-    //         try {
-    //             const data = await getRequests();
-    //             setRequests(data);
-    //             setLoading(false);
-    //         } catch (err) {
-    //             setError("Failed to load requests.");
-    //             console.error("Error fetching requests:", err);
-    //         } finally {
-    //             // setError("No pending requests");
-    //             setLoading(false);
-    //         }
-    //     };
-    //     fetchRequests();
-    // }, []);
-
-    const handleApprove = () => {
-        alert("Request Approved!");
-        // Add your approval logic here
-    };
-
-    const handleReject = () => {
-        alert("Request Rejected!");
-        // Add your rejection logic here
-    };
-
     return (
         <div className="pending-requests">
             <h2>Pending Requests</h2>
@@ -84,8 +61,7 @@ const PendingRequestsTab: React.FC<PendingRequestsTabProps> = ({ role }) => {
                         key={request.id}
                         role={role}
                         request={request}
-                        onApprove={handleApprove}
-                        onReject={handleReject}
+                        showApproveReject={true}
                     />
                 ))
             )}

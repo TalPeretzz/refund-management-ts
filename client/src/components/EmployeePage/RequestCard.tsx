@@ -1,24 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Request } from "../../types/Request";
 import "../../styles/RequestCard.css";
+import { updateRequestStatus } from "../../services/requestService";
 
 interface RequestCardProps {
     request: Request;
     role: string;
-    onApprove: () => void;
-    onReject: () => void;
+    showApproveReject?: boolean;
 }
 
 const RequestCard: React.FC<RequestCardProps> = ({
     request,
     role,
-    onApprove,
-    onReject,
+    showApproveReject,
 }) => {
+    const [currentRequest, setCurrentRequest] = useState<Request>(request);
+
     const getStatusColor = (status: string) => {
         switch (status) {
             case "Pending":
                 return "#ff9800"; // Orange
+            case "Manager Approved":
+                return "#2196F3"; // Blue
             case "Approved":
                 return "#4caf50"; // Green
             case "Rejected":
@@ -28,43 +31,85 @@ const RequestCard: React.FC<RequestCardProps> = ({
         }
     };
 
+    const onApprove = async () => {
+        const status = role === "manager" ? "Manager Approved" : "Approved";
+        const updatedRequest = await updateRequestStatus(request.id!, status);
+        setCurrentRequest(updatedRequest);
+    };
+    const onReject = async () => {
+        const updatedRequest = await updateRequestStatus(
+            request.id!,
+            "Rejected"
+        );
+        setCurrentRequest(updatedRequest);
+    };
+
+    const shouldShowApproveReject = (
+        role: string,
+        requestStatus: string,
+        showApproveReject: boolean
+    ) => {
+        if (role === "manager") {
+            return (
+                showApproveReject &&
+                role === "manager" &&
+                !["Manager Approved", "Approved", "Rejected"].includes(
+                    requestStatus
+                )
+            );
+        }
+
+        if (role === "account-manager") {
+            return (
+                showApproveReject &&
+                role === "account-manager" &&
+                !["Approved", "Rejected"].includes(requestStatus)
+            );
+        }
+    };
+
     return (
         <div
             className="request-card"
             style={{
-                borderLeft: `5px solid ${getStatusColor(request.status)}`,
+                borderLeft: `5px solid ${getStatusColor(currentRequest.status)}`,
             }}
         >
             <div className="card-content">
                 <h1>
                     {role === "manager" || role === "account-manager"
-                        ? (request?.employeeName ?? "test")
-                        : ""}
+                        ? currentRequest.employee?.FullName
+                        : null}
                 </h1>
-                <h3>{request.title}</h3>
+                <h3>{currentRequest.title}</h3>
                 <p>
-                    <strong>Description:</strong> {request.description}
+                    <strong>Description:</strong> {currentRequest.description}
                 </p>
                 <p>
-                    <strong>Status:</strong> {request.status}
+                    <strong>Status:</strong> {currentRequest.status}
                 </p>
                 <p>
-                    <strong>Date:</strong> {request.date}
+                    <strong>Date:</strong> {currentRequest.date}
                 </p>
                 <p>
-                    <strong>Amount:</strong> ${request.amount}
+                    <strong>Amount:</strong> ${currentRequest.amount.toFixed(2)}
                 </p>
             </div>
-            {(role === "manager" || role === "account-manager") && (
-                <div className="button-container">
-                    <button className="approve-button" onClick={onApprove}>
-                        Approve
-                    </button>
-                    <button className="reject-button" onClick={onReject}>
-                        Reject
-                    </button>
-                </div>
-            )}
+            {showApproveReject &&
+                shouldShowApproveReject(
+                    role,
+                    currentRequest.status,
+                    showApproveReject
+                ) && (
+                    <div className="button-container">
+                        <button className="approve-button" onClick={onApprove}>
+                            Approve
+                        </button>
+                        <button className="reject-button" onClick={onReject}>
+                            Reject
+                        </button>
+                    </div>
+                )}
         </div>
     );
 };
